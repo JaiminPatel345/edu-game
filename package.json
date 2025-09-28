@@ -1,0 +1,20 @@
+{
+  "name": "edu-game",
+  "version": "1.0.0",
+  "private": true,
+  "repository": "https://github.com/JaiminPatel345/edu-game.git",
+  "author": "Jaimin Detroja <124363976+JaiminPatel345@users.noreply.github.com>",
+  "license": "MIT",
+  "workspaces": [
+    "game",
+    "teachers-client",
+    "server",
+    "packages/*"
+  ],
+  "scripts": {
+    "bootstrap": "yarn install",
+    "lint": "yarn workspaces run lint",
+    "test": "yarn workspaces run test",
+    "build": "yarn workspaces run build"
+  }
+}
