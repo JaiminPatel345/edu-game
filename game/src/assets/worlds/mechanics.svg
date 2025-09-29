@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260" width="400" height="260">
+  <defs>
+    <linearGradient id="me-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0EA5E9" />
+      <stop offset="100%" stop-color="#38BDF8" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="260" rx="24" fill="url(#me-gradient)" />
+  <g fill="none" stroke="#F8FAFC" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" opacity="0.85">
+    <circle cx="120" cy="150" r="48" />
+    <circle cx="240" cy="150" r="36" />
+    <circle cx="320" cy="150" r="24" />
+    <path d="M72 150h288" />
+    <path d="M120 68l36 82" />
+    <path d="M240 68l24 82" />
+  </g>
+  <text x="32" y="210" font-family="'Poppins','Segoe UI',sans-serif" font-size="32" font-weight="600" fill="#F8FAFC">Mechanics Meadow</text>
+  <text x="32" y="240" font-family="'Poppins','Segoe UI',sans-serif" font-size="18" fill="rgba(248,250,252,0.85)">Balance forces and motion</text>
+</svg>
