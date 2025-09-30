@@ -1,0 +1,32 @@
+[
+  {
+    "id": "app-1",
+    "studentId": "student-1",
+    "opportunityId": "opp-1",
+    "status": "shortlisted",
+    "appliedDate": "2025-01-20",
+    "lastUpdated": "2025-01-25",
+    "matchPercentage": 82,
+    "skillAlignment": [
+      { "skill": "React", "hasSkill": true, "proficiency": 85 },
+      { "skill": "Node.js", "hasSkill": true, "proficiency": 80 },
+      { "skill": "JavaScript", "hasSkill": true, "proficiency": 90 },
+      { "skill": "Git", "hasSkill": true, "proficiency": 75 }
+    ]
+  },
+  {
+    "id": "app-2",
+    "studentId": "student-1",
+    "opportunityId": "opp-2",
+    "status": "interview_scheduled",
+    "appliedDate": "2025-01-22",
+    "lastUpdated": "2025-01-28",
+    "matchPercentage": 68,
+    "skillAlignment": [
+      { "skill": "Python", "hasSkill": true, "proficiency": 75 },
+      { "skill": "Machine Learning", "hasSkill": true, "proficiency": 65 },
+      { "skill": "TensorFlow", "hasSkill": false },
+      { "skill": "Data Analysis", "hasSkill": true, "proficiency": 70 }
+    ]
+  }
+]

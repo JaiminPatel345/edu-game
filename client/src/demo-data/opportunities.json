@@ -1,0 +1,83 @@
+[
+  {
+    "id": "opp-1",
+    "companyId": "comp-1",
+    "company": "TechCorp Solutions",
+    "title": "Software Development Intern",
+    "type": "internship",
+    "department": ["Computer Science", "IT"],
+    "location": "Bangalore",
+    "stipend": 25000,
+    "skills": ["React", "Node.js", "JavaScript", "Git"],
+    "description": "Join our dynamic team to work on cutting-edge web applications",
+    "responsibilities": [
+      "Develop and maintain web applications",
+      "Collaborate with senior developers",
+      "Write clean, maintainable code"
+    ],
+    "requirements": [
+      "Strong knowledge of React and Node.js",
+      "Good problem-solving skills",
+      "Team player"
+    ],
+    "ppoChance": 85,
+    "postedDate": "2025-01-15",
+    "deadline": "2025-02-28",
+    "responseScore": 92,
+    "workCultureScore": 88
+  },
+  {
+    "id": "opp-2",
+    "companyId": "comp-2",
+    "company": "DataSystems Inc",
+    "title": "Machine Learning Intern",
+    "type": "internship",
+    "department": ["Computer Science", "Data Science"],
+    "location": "Mumbai",
+    "stipend": 30000,
+    "skills": ["Python", "Machine Learning", "TensorFlow", "Data Analysis"],
+    "description": "Work on real-world ML projects with experienced data scientists",
+    "responsibilities": [
+      "Build and train ML models",
+      "Analyze large datasets",
+      "Contribute to research papers"
+    ],
+    "requirements": [
+      "Strong Python programming",
+      "Understanding of ML algorithms",
+      "Good mathematical foundation"
+    ],
+    "ppoChance": 75,
+    "postedDate": "2025-01-20",
+    "deadline": "2025-03-15",
+    "responseScore": 85,
+    "workCultureScore": 90
+  },
+  {
+    "id": "opp-3",
+    "companyId": "comp-3",
+    "company": "CloudTech Systems",
+    "title": "Full Stack Developer",
+    "type": "full-time",
+    "department": ["Computer Science", "IT"],
+    "location": "Pune",
+    "salary": 800000,
+    "skills": ["React", "Node.js", "AWS", "MongoDB", "Docker"],
+    "description": "Build scalable cloud-native applications",
+    "responsibilities": [
+      "Design and develop full-stack applications",
+      "Deploy and maintain cloud infrastructure",
+      "Optimize application performance"
+    ],
+    "requirements": [
+      "2+ years experience with React and Node.js",
+      "Cloud platform experience",
+      "Strong system design skills"
+    ],
+    "ppoChance": 95,
+    "postedDate": "2025-01-10",
+    "deadline": "2025-02-20",
+    "responseScore": 95,
+    "workCultureScore": 92
+  }
+]

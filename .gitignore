@@ -1,11 +1,6 @@
-node_modules/
-.idea/
-.vscode/
+node_modules
+dist
 .DS_Store
-yarn-error.log
-dist/
-coverage/
-.env
-.env.*
-*.log
-tmp/
+server/public
+vite.config.ts.*
+*.tar.gz

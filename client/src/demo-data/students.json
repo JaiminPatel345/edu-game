@@ -1,0 +1,44 @@
+[
+  {
+    "id": "student-1",
+    "userId": "user-1",
+    "name": "Rahul Sharma",
+    "email": "rahul.sharma@college.edu",
+    "phone": "+91 9876543210",
+    "branch": "Computer Science",
+    "year": 3,
+    "cgpa": 8.5,
+    "skills": ["React", "Node.js", "Python", "Machine Learning", "SQL", "Git"],
+    "projects": [
+      {
+        "id": "proj-1",
+        "title": "E-Commerce Platform",
+        "description": "Full-stack e-commerce application with payment integration",
+        "technologies": ["React", "Node.js", "MongoDB", "Stripe"],
+        "link": "https://github.com/rahul/ecommerce",
+        "startDate": "2024-01-15",
+        "endDate": "2024-05-20"
+      }
+    ],
+    "certifications": [
+      {
+        "id": "cert-1",
+        "name": "AWS Certified Developer",
+        "issuer": "Amazon Web Services",
+        "issueDate": "2024-03-15",
+        "credentialId": "AWS-12345",
+        "verified": true
+      }
+    ],
+    "academicRecords": [
+      {
+        "id": "ac-1",
+        "degree": "B.Tech Computer Science",
+        "institution": "MIT Pune",
+        "year": 2025,
+        "score": 8.5,
+        "scoreType": "CGPA"
+      }
+    ]
+  }
+]

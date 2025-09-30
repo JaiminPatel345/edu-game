@@ -1,0 +1,176 @@
+## Core Features (Mandatory Foundation)
+
+### 1. Unified Digital Student Profile
+
+- Single profile containing resume, cover letter, skills, academic records, and project portfolio
+    
+- Government Scheme Integration (PMKVY, SWAYAM certifications automatically linked)
+    
+- Automated Resume Optimizer: AI scans job descriptions and suggests keyword optimization
+    
+
+### 2. Centralized Opportunity Portal
+
+- Placement cell posts verified internships with department, skills, stipend filters
+    
+- Industry Demand Heatmap shows trending skills and regional salary ranges
+    
+- PPO Probability Score displayed for each opportunity
+    
+
+### 3. Automated Recommendation Engine
+
+- Shows "80% profile match" indicators with specific skill alignment
+    
+- Sends polite HR notifications after X days of application status inactivity
+    
+- Curriculum feedback reports generated for DTE based on industry trends
+    
+
+### 4. One-Click Application System
+
+- Applies using pre-verified digital profile
+    
+- Email Integration with deep links opening directly to application pages
+    
+- Smart notifications via existing student communication channels
+    
+
+### 5. Role-Based Access Control (RBAC)
+
+- Secure access for Students, Faculty, Placement Cell, Recruiters
+    
+- Data privacy ensured through role-specific views
+    
+
+### 6. Workflow Automation for Approvals
+
+- Automated routing to faculty mentors
+    
+- No physical document chasing required
+    
+
+### 7. Intelligent Calendar Sync & Interview Management
+
+- Integrated with academic timetables to avoid class conflicts
+    
+- Auto-reminder system for students and recruiters
+    
+- Mock Interview Simulator with AI feedback on performance
+    
+
+### 8. Application Tracking Dashboard
+
+- Real-time dashboards for all stakeholders
+    
+- Peer Success Stories showing alumni journeys and pathways
+    
+- Mentorship Network with bookable 1-on-1 slots
+    
+
+### 9. Digital Feedback & Certification
+
+- Supervisor feedback triggers automatic certificate generation
+    
+- Immutable, verifiable credentials using blockchain-lite technology
+    
+
+### 10. Advanced Analytics Suite
+
+- Placement rates, conversion metrics, skill gap analysis
+    
+- College-specific industry demand insights
+    
+- Predictive "at-risk" student identification
+    
+
+---
+
+## Unique & Jawbreaker Features
+
+### AI-Powered Career Intelligence
+
+1. **Smart Profile Autofill & Parsing**
+    
+    - Resume upload automatically populates digital profile
+        
+    - Reduces creation friction, increases data accuracy
+        
+2. **Skill Gap Analyzer with Prescriptive Learning**
+    
+    - Identifies specific missing skills (Python, FastAPI, etc.)
+        
+    - Recommends free learning resources and government schemes
+        
+    - Tracks college-wide trending skills
+        
+3. **Predictive Student Success System**
+    
+    - Flags at-risk students for proactive mentorship
+        
+    - Data-driven intervention triggers
+        
+4. **AI-Resume Toxic Phrase Detector**
+    
+    - Replaces weak phrases with action-oriented language
+        
+    - Teaches effective professional communication
+        
+
+### Transparency & Trust Features
+
+5. **Company Transparency Dashboard**
+    
+    - Response Score tracks company communication speed
+        
+    - Work Culture Score from alumni reviews
+        
+    - Two-sided marketplace fairness
+        
+6. **Rejection Analysis & Improvement Roadmap**
+    
+    - Specific, actionable feedback on application rejections
+        
+    - "Your resume lacked React projects" with build suggestions
+        
+    - Transforms rejections into learning opportunities
+        
+
+### Engagement & Growth Features
+
+7. **Mock Interview Simulator**
+    
+    - AI-powered practice interviews with performance analytics
+        
+    - Technical and HR question banks
+        
+    - Personalized feedback on communication skills
+        
+8. **Peer Success Visualization**
+    
+    - "Student X from your branch got placed via this company"
+        
+    - Alumni journey stories and mentorship booking
+        
+    - Pathway inspiration for current students
+        
+9. **Industry Trend Predictor**
+    
+    - Real-time analysis of job posting trends across India
+        
+    - Emerging technology alerts and skill demand forecasts
+        
+    - Local industry needs mapping for curriculum planning
+        
+
+### Smart Communication System
+
+10. **Intelligent Notification Engine**
+    
+    - Polite HR follow-ups for status updates
+        
+    - Deep-linked emails opening directly to relevant pages
+        
+    - No forced app adoption - works through existing channels
+
+

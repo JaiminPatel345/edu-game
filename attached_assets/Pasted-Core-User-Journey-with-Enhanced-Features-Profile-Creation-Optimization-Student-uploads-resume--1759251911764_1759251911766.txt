@@ -1,0 +1,66 @@
+Core User Journey with Enhanced Features:
+
+Profile Creation & Optimization
+
+Student uploads resume → Smart Autofill populates profile + Government Scheme integration (PMKVY/SWAYAM)
+
+Automated Resume Optimizer scans job descriptions and suggests keyword improvements
+
+AI Toxic Phrase Detector enhances professional communication
+
+Intelligent Opportunity Matching
+
+Recommendation Engine shows "80% profile match" with specific skill alignment
+
+Industry Demand Heatmap displays trending skills and regional salary data
+
+Company Transparency Dashboard shows Response Scores and alumni reviews
+
+Application & Follow-up System
+
+One-Click Application using verified profile
+
+Email Integration with deep links to application pages
+
+Automated polite HR notifications after X days of status inactivity
+
+Interview Preparation & Scheduling
+
+Mock Interview Simulator with AI feedback on technical and soft skills
+
+Intelligent Calendar Sync avoids academic conflicts with auto-reminders
+
+Peer Success Stories show concrete pathways from similar students
+
+Continuous Learning & Improvement
+
+Skill Gap Analyzer with Prescriptive Learning resources
+
+Rejection Analysis generates specific Improvement Roadmaps
+
+Industry Trend Predictor informs curriculum development
+
+Special System Interactions:
+
+All notifications use existing student channels with deep links - no forced app adoption
+
+Government schemes automatically integrated into learning recommendations
+
+Peer Mentorship Network connects students with successful alumni
+
+Predictive analytics identify at-risk students for proactive support
+
+Blockchain-lite verification for all certificates and credentials
+
+Data Flow Architecture:
+
+Role-Based Access Control ensures appropriate data visibility
+
+Real-time dashboards update across all stakeholder views
+
+Industry demand data feeds into curriculum feedback for DTE
+
+Success pathway visualization inspires and guides students
+
+Design how these interconnected features create a zero-friction journey from profile creation to placement, while maintaining compliance with government schemes and working within existing institutional communication patterns.
+
