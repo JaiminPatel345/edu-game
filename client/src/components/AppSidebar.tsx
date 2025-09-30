@@ -4,7 +4,6 @@ import {
   FileText, 
   User, 
   TrendingUp, 
-  Award,
   Users,
   Video,
   LogOut
@@ -24,6 +23,7 @@ import {
 import { useLocation } from 'wouter';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Logo } from '@/components/ui/logo';
 import { RoleSelector } from './RoleSelector';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCurrentRole, setUser } from '../store';
@@ -79,15 +79,7 @@ export function AppSidebar() {
   return (
     <Sidebar>
       <SidebarHeader className="p-4 border-b">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-            <Award className="w-5 h-5 text-primary-foreground" />
-          </div>
-          <div>
-            <h2 className="font-bold text-lg">PlaceMe</h2>
-            <p className="text-xs text-muted-foreground">AI Career Platform</p>
-          </div>
-        </div>
+        <Logo size="sm" />
       </SidebarHeader>
 
       <SidebarContent className="px-2">

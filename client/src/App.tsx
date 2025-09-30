@@ -9,8 +9,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import Login from "@/pages/Login";
-import Register from "@/pages/Register";
+import Auth from "@/pages/Auth";
 import NotFound from "@/pages/not-found";
 import Dashboard from "@/pages/Dashboard";
 import Profile from "@/pages/Profile";
@@ -57,15 +56,7 @@ function AppRouter() {
   const user = useSelector((state: RootState) => state.app.user);
 
   if (!user) {
-    return (
-      <Switch>
-        <Route path="/login" component={Login} />
-        <Route path="/register" component={Register} />
-        <Route>
-          <Redirect to="/login" />
-        </Route>
-      </Switch>
-    );
+    return <Auth />;
   }
 
   return <AuthenticatedApp />;

@@ -4,6 +4,7 @@ import { OpportunityCard } from '@/components/OpportunityCard';
 import { ApplicationStatusCard } from '@/components/ApplicationStatusCard';
 import { IndustryHeatmap } from '@/components/IndustryHeatmap';
 import { PeerSuccessCard } from '@/components/PeerSuccessCard';
+import { Feedback } from '@/components/ui/feedback';
 import { FileText, CheckCircle2, Video, Award, TrendingUp, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { api } from '../api';
@@ -220,6 +221,11 @@ export default function Dashboard() {
 
       {/* Industry Demand Heatmap */}
       <IndustryHeatmap data={industryDemand} />
+
+      {/* Feedback Section */}
+      <div className="flex justify-end">
+        <Feedback />
+      </div>
     </div>
   );
 }

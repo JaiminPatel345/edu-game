@@ -1,16 +1,28 @@
-export function GridBeam({ className = "" }: { className?: string }) {
-  return (
-    <div className={`absolute inset-0 overflow-hidden ${className}`}>
-      <div className="absolute inset-0 grid-beam opacity-40" />
-      <div className="absolute inset-0">
-        {/* Animated beams */}
-        <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-primary/50 to-transparent animate-pulse" 
-             style={{ animationDuration: '3s' }} />
-        <div className="absolute top-0 left-2/4 w-px h-full bg-gradient-to-b from-transparent via-primary/50 to-transparent animate-pulse" 
-             style={{ animationDuration: '4s', animationDelay: '1s' }} />
-        <div className="absolute top-0 left-3/4 w-px h-full bg-gradient-to-b from-transparent via-primary/50 to-transparent animate-pulse" 
-             style={{ animationDuration: '3.5s', animationDelay: '0.5s' }} />
-      </div>
-    </div>
-  );
-}
+'use client'
+
+import React from 'react'
+import { cn } from '@/lib/utils'
+
+export const GridBeam: React.FC<{ children: React.ReactNode; className?: string }> = ({
+  children,
+  className
+}) => (
+  <div className={cn('relative', className)}>
+    <Lights className="fixed inset-0 pointer-events-none z-0" />
+    {children}
+  </div>
+)
+
+export const Lights: React.FC<{ className?: string }> = ({ className }) => (
+  <div className={cn('w-full h-full overflow-hidden', className)}>
+    <div
+      className={'w-full h-full relative bottom-[-200px] '}
+      style={{
+        background:
+          'conic-gradient(from 180deg at 50% 50%,var(--blue-500) 0deg,var(--cyan-400) 180deg,var(--yellow-400) 1turn)',
+        filter: 'blur(75px)',
+        opacity: '30%'
+      }}
+    />
+  </div>
+)
