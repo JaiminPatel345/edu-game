@@ -1,24 +1,86 @@
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Building2, MapPin, Calendar, TrendingUp, Briefcase } from 'lucide-react';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import { Building2, MapPin, Calendar, TrendingUp, Briefcase, CheckCircle2 } from 'lucide-react';
 import { ProfileMatchBadge } from './ProfileMatchBadge';
 import { SkillBadge } from './SkillBadge';
 import type { Opportunity } from '../types';
+import type { RootState } from '../store';
+import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { addApplication } from '../store';
+import { useToast } from '@/hooks/use-toast';
 
 interface OpportunityCardProps {
   opportunity: Opportunity;
   matchPercentage?: number;
-  onApply?: () => void;
   onViewDetails?: () => void;
 }
 
-export function OpportunityCard({ opportunity, matchPercentage, onApply, onViewDetails }: OpportunityCardProps) {
+export function OpportunityCard({ opportunity, matchPercentage, onViewDetails }: OpportunityCardProps) {
+  const dispatch = useDispatch();
+  const { toast } = useToast();
+  const appliedOpportunities = useSelector((state: RootState) => state.app.appliedOpportunities);
+  const [isApplying, setIsApplying] = useState(false);
+  const [hasApplied, setHasApplied] = useState(false);
+
+  // Check if this opportunity is already applied to using array includes
+  useEffect(() => {
+    const isApplied = appliedOpportunities.includes(opportunity.id);
+    setHasApplied(isApplied);
+  }, [appliedOpportunities, opportunity.id]);
+
   const formatSalary = (amount: number) => {
     if (amount >= 100000) {
       return `₹${(amount / 100000).toFixed(1)}L`;
     }
     return `₹${(amount / 1000).toFixed(0)}K`;
+  };
+
+  const handleApply = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (hasApplied || isApplying) return;
+    
+    setIsApplying(true);
+    
+    // Show loader for 1 second
+    setTimeout(() => {
+      try {
+        // Create mock application without API call
+        const newApplication = {
+          id: `app-${Date.now()}`,
+          studentId: 'student-1',
+          opportunityId: opportunity.id,
+          opportunity,
+          status: 'pending' as const,
+          appliedDate: new Date().toISOString(),
+          lastUpdated: new Date().toISOString(),
+          matchPercentage: Math.floor(Math.random() * 30) + 70,
+          skillAlignment: opportunity.skills.map(skill => ({
+            skill,
+            hasSkill: Math.random() > 0.3,
+            proficiency: Math.floor(Math.random() * 30) + 70
+          }))
+        };
+        
+        dispatch(addApplication(newApplication));
+        setHasApplied(true);
+        toast({
+          title: 'Application Submitted Successfully! 🎉',
+          description: 'Your application has been submitted. You will hear back soon.',
+        });
+      } catch (error) {
+        console.log(error);
+        toast({
+          title: 'Application Failed',
+          description: 'There was an error submitting your application.',
+          variant: 'destructive',
+        });
+      } finally {
+        setIsApplying(false);
+      }
+    }, 1000);
   };
 
   return (
@@ -90,15 +152,25 @@ export function OpportunityCard({ opportunity, matchPercentage, onApply, onViewD
 
         <div className="flex gap-2 pt-2">
           <Button 
-            variant="default" 
-            className="flex-1"
-            onClick={(e) => {
-              e.stopPropagation();
-              onApply?.();
-            }}
+            variant={hasApplied ? "secondary" : "default"}
+            className="flex-1 transition-all duration-200"
+            onClick={handleApply}
+            disabled={isApplying || hasApplied}
             data-testid="button-apply"
           >
-            Apply Now
+            {isApplying ? (
+              <>
+                <LoadingSpinner size="sm" />
+                <span className="ml-2">Applying...</span>
+              </>
+            ) : hasApplied ? (
+              <>
+                <CheckCircle2 className="w-4 h-4 mr-2 text-green-600" />
+                <span className="animate-in fade-in-0 duration-500">Applied</span>
+              </>
+            ) : (
+              'Apply Now'
+            )}
           </Button>
           <Button 
             variant="outline"

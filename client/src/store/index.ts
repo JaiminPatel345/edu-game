@@ -8,6 +8,7 @@ interface AppState {
   opportunities: Opportunity[];
   applications: Application[];
   theme: 'light' | 'dark';
+  appliedOpportunities: string[]; // Track applied opportunity IDs for quick lookup
 }
 
 const initialState: AppState = {
@@ -16,7 +17,8 @@ const initialState: AppState = {
   studentProfile: null,
   opportunities: [],
   applications: [],
-  theme: 'light'
+  theme: 'light',
+  appliedOpportunities: []
 };
 
 const appSlice = createSlice({
@@ -25,6 +27,11 @@ const appSlice = createSlice({
   reducers: {
     setUser: (state, action: PayloadAction<User | null>) => {
       state.user = action.payload;
+      // Clear applications when user logs in to start fresh
+      if (action.payload) {
+        state.applications = [];
+        state.appliedOpportunities = [];
+      }
     },
     setCurrentRole: (state, action: PayloadAction<'student' | 'faculty' | 'placement_cell' | 'recruiter'>) => {
       state.currentRole = action.payload;
@@ -37,6 +44,19 @@ const appSlice = createSlice({
     },
     setApplications: (state, action: PayloadAction<Application[]>) => {
       state.applications = action.payload;
+      // Update appliedOpportunities array for quick lookup - handles empty arrays correctly
+      state.appliedOpportunities = action.payload.map(app => app.opportunityId);
+    },
+    addApplication: (state, action: PayloadAction<Application>) => {
+      state.applications.push(action.payload);
+      // Add to appliedOpportunities array if not already present
+      if (!state.appliedOpportunities.includes(action.payload.opportunityId)) {
+        state.appliedOpportunities.push(action.payload.opportunityId);
+      }
+    },
+    clearApplications: (state) => {
+      state.applications = [];
+      state.appliedOpportunities = [];
     },
     toggleTheme: (state) => {
       state.theme = state.theme === 'light' ? 'dark' : 'light';
@@ -50,6 +70,8 @@ export const {
   setStudentProfile, 
   setOpportunities, 
   setApplications,
+  addApplication,
+  clearApplications,
   toggleTheme
 } = appSlice.actions;
 

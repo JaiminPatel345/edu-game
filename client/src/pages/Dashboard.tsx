@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { DashboardStatsCard } from '@/components/DashboardStatsCard';
 import { OpportunityCard } from '@/components/OpportunityCard';
 import { ApplicationStatusCard } from '@/components/ApplicationStatusCard';
@@ -10,16 +11,16 @@ import { Button } from '@/components/ui/button';
 import { api } from '../api';
 import type { DashboardStats, Opportunity, Application, IndustryDemand, PeerSuccess } from '../types';
 import { useLocation } from 'wouter';
-import { useSelector } from 'react-redux';
 import type { RootState } from '../store';
 
 export default function Dashboard() {
   const [, setLocation] = useLocation();
+  const dispatch = useDispatch();
   const currentRole = useSelector((state: RootState) => state.app.currentRole);
+  const applications = useSelector((state: RootState) => state.app.applications);
   const [isLoading, setIsLoading] = useState(true);
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [topOpportunities, setTopOpportunities] = useState<Opportunity[]>([]);
-  const [recentApplications, setRecentApplications] = useState<Application[]>([]);
   const [industryDemand, setIndustryDemand] = useState<IndustryDemand[]>([]);
   const [peerSuccess, setPeerSuccess] = useState<PeerSuccess[]>([]);
 
@@ -27,17 +28,16 @@ export default function Dashboard() {
     // Fetch all dashboard data
     const fetchData = async () => {
       setIsLoading(true);
-      const [statsData, opportunities, applications, demand, peers] = await Promise.all([
+      const [statsData, opportunities, demand, peers] = await Promise.all([
         api.getDashboardStats('student-1'),
         api.getOpportunities(),
-        api.getApplications('student-1'),
         api.getIndustryDemand(),
         api.getPeerSuccessStories()
       ]);
 
       setStats(statsData);
       setTopOpportunities(opportunities.slice(0, 3));
-      setRecentApplications(applications.slice(0, 3));
+      // Don't load applications initially - start fresh
       setIndustryDemand(demand);
       setPeerSuccess(peers);
       setIsLoading(false);
@@ -46,10 +46,7 @@ export default function Dashboard() {
     fetchData();
   }, []);
 
-  const handleApply = async (opportunityId: string) => {
-    console.log('Applying to opportunity:', opportunityId);
-    // In real app, this would call API and update state
-  };
+
 
   if (isLoading) {
     return (
@@ -141,9 +138,9 @@ export default function Dashboard() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <DashboardStatsCard
             title="Total Applications"
-            value={stats.totalApplications}
+            value={applications.length + 5}
             icon={FileText}
-            trend={{ value: 15, isPositive: true }}
+            trend={applications.length > 0 ? { value: Math.min(applications.length * 5, 50), isPositive: true } : undefined}
             color="primary"
           />
           <DashboardStatsCard
@@ -192,7 +189,6 @@ export default function Dashboard() {
                   key={opp.id}
                   opportunity={opp}
                   matchPercentage={Math.floor(Math.random() * 30) + 70}
-                  onApply={() => handleApply(opp.id)}
                   onViewDetails={() => setLocation(`/opportunities/${opp.id}`)}
                 />
               ))}
@@ -215,7 +211,7 @@ export default function Dashboard() {
               </Button>
             </div>
             <div className="grid gap-4">
-              {recentApplications.map((app) => (
+              {applications.slice(0, 3).map((app: Application) => (
                 <ApplicationStatusCard
                   key={app.id}
                   application={app}

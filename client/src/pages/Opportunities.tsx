@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { useLocation } from 'wouter';
 import { OpportunityCard } from '@/components/OpportunityCard';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -8,10 +9,9 @@ import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import { Search, Filter, SlidersHorizontal } from 'lucide-react';
 import { api } from '../api';
 import type { Opportunity } from '../types';
-import { useToast } from '@/hooks/use-toast';
 
 export default function Opportunities() {
-  const { toast } = useToast();
+  const [, setLocation] = useLocation();
   const [isLoading, setIsLoading] = useState(true);
   const [isFilterLoading, setIsFilterLoading] = useState(false);
   const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
@@ -73,21 +73,7 @@ export default function Opportunities() {
     }
   }, [filterOpportunities]);
 
-  const handleApply = async (opportunityId: string) => {
-    try {
-      await api.submitApplication(opportunityId, 'student-1');
-      toast({
-        title: 'Application Submitted!',
-        description: 'Your application has been submitted successfully.',
-      });
-    } catch (error) {
-      toast({
-        title: 'Application Failed',
-        description: 'There was an error submitting your application.',
-        variant: 'destructive',
-      });
-    }
-  };
+
 
   const departments = ['Computer Science', 'IT', 'Data Science', 'Electronics'];
 
@@ -209,8 +195,7 @@ export default function Opportunities() {
                 key={opp.id}
                 opportunity={opp}
                 matchPercentage={Math.floor(Math.random() * 30) + 70}
-                onApply={() => handleApply(opp.id)}
-                onViewDetails={() => console.log('View details:', opp.id)}
+                onViewDetails={() => setLocation(`/opportunities/${opp.id}`)}
               />
             ))}
           </div>

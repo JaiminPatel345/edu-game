@@ -21,6 +21,7 @@ import SuccessStories from "@/pages/SuccessStories";
 import CentralGovInternships from "@/pages/CentralGovInternships";
 import StateGovPrograms from "@/pages/StateGovPrograms";
 import PSUOpportunities from "@/pages/PSUOpportunities";
+import JobDetails from "@/pages/JobDetails";
 
 function AuthenticatedApp() {
   const style = {
@@ -42,6 +43,7 @@ function AuthenticatedApp() {
               <Route path="/" component={Dashboard} />
               <Route path="/profile" component={Profile} />
               <Route path="/opportunities" component={Opportunities} />
+              <Route path="/opportunities/:id" component={JobDetails} />
               <Route path="/applications" component={Applications} />
               <Route path="/skill-development" component={SkillDevelopment} />
               <Route path="/mock-interview" component={MockInterview} />

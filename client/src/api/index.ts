@@ -198,10 +198,10 @@ export const api = {
       await simulateDelay(800);
       
       return {
-        totalApplications: 12,
-        shortlisted: 8,
-        interviews: 3,
-        offers: 2,
+        totalApplications: 5,
+        shortlisted: 3,
+        interviews: 2,
+        offers: 0,
         avgMatchPercentage: 78,
         profileCompleteness: 87
       };
