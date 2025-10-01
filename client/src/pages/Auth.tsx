@@ -444,16 +444,6 @@ export default function Auth() {
                     secondTab={SignUpForm}
                   />
 
-                  <div className="mt-6 text-center space-y-3">
-                    <div className="text-xs text-muted-foreground">
-                      <p className="font-medium mb-2">Demo Accounts:</p>
-                      <div className="space-y-1">
-                        <div>• <strong>jaimin-student@gmail.com</strong> (Student)</div>
-                        <div>• <strong>teacher@demo.com</strong> (Faculty)</div>
-                        <div>• <strong>xyz@demo.com</strong> (Company)</div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
