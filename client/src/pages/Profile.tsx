@@ -27,13 +27,44 @@ export default function Profile() {
   const [profile, setProfile] = useState<StudentProfile | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [hasExistingProfile, setHasExistingProfile] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [resumeUploaded, setResumeUploaded] = useState(false);
+
+  // Helper functions for tricky behavior: show basic data initially, full data after resume upload
+  const getDisplayedSkills = () => {
+    if (!profile) return [];
+    if (!resumeUploaded) {
+      // Basic skills only (before resume upload)
+      return ['Java', 'React'];
+    }
+    // Full skills (after resume upload)
+    return profile.skills;
+  };
+
+  const getDisplayedProjects = () => {
+    if (!profile) return [];
+    if (!resumeUploaded) {
+      // No projects initially
+      return [];
+    }
+    // Full projects (after resume upload)
+    return profile.projects;
+  };
 
   useEffect(() => {
     const fetchProfile = async () => {
-      const data = await api.getStudentProfile('student-1');
-      setProfile(data);
-      setHasExistingProfile(true);
+      try {
+        setIsLoading(true);
+        const data = await api.getStudentProfile('student-1');
+        setProfile(data);
+        
+        // Always start with basic profile (resumeUploaded stays false)
+        // This creates the "tricky" behavior by default
+      } catch (error) {
+        console.error('Failed to fetch profile:', error);
+      } finally {
+        setIsLoading(false);
+      }
     };
     fetchProfile();
   }, []);
@@ -46,6 +77,7 @@ export default function Profile() {
     try {
       const data = await api.uploadResumeAndAutofill(new File([], ''));
       setProfile(data);
+      setResumeUploaded(true); // Enable full profile view
       setIsUploading(false);
       toast({
         title: 'Resume Uploaded Successfully!',
@@ -80,7 +112,21 @@ export default function Profile() {
     }
   };
 
-  // Show MaxedSEO animation when uploading (for both new and existing profiles)
+
+
+  // Show loading state while fetching profile
+  if (isLoading) {
+    return (
+      <div className="max-w-4xl mx-auto flex items-center justify-center min-h-[400px]">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading your profile...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show MaxedSEO animation when uploading resume
   if (isUploading) {
     return (
       <div className="max-w-4xl mx-auto flex items-center justify-center min-h-[400px]">
@@ -89,15 +135,13 @@ export default function Profile() {
     );
   }
 
-  // If no profile exists yet, show initial upload screen
-  if (!profile || !hasExistingProfile) {
+  // If no profile data, show error
+  if (!profile) {
     return (
-      <div className="max-w-4xl mx-auto space-y-8">
-        <div>
-          <h1 className="text-3xl font-bold">Create Your Profile</h1>
-          <p className="text-muted-foreground mt-1">Upload your resume to get started with AI-powered analysis</p>
+      <div className="max-w-4xl mx-auto flex items-center justify-center min-h-[400px]">
+        <div className="text-center">
+          <p className="text-muted-foreground">Failed to load profile. Please try again.</p>
         </div>
-        <ResumeUploadZone onUpload={handleResumeUpload} isLoading={false} />
       </div>
     );
   }
@@ -110,7 +154,14 @@ export default function Profile() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold" data-testid="text-profile-title">My Profile</h1>
-          <p className="text-muted-foreground mt-1">Manage your personal information</p>
+          <div className="flex items-center gap-2 mt-1">
+            <p className="text-muted-foreground">Manage your personal information</p>
+            {resumeUploaded && (
+              <Badge variant="secondary" className="bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-300">
+                Resume Processed
+              </Badge>
+            )}
+          </div>
         </div>
         <div className="flex gap-2">
           {isEditing ? (
@@ -162,6 +213,8 @@ export default function Profile() {
         </CardContent>
       </Card>
 
+
+
       {/* Skills Section */}
       <Card>
         <CardHeader>
@@ -180,7 +233,7 @@ export default function Profile() {
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-2">
-            {profile.skills.map((skill) => (
+            {getDisplayedSkills().map((skill) => (
               <Badge key={skill} variant="secondary" className="text-sm">
                 {skill}
               </Badge>
@@ -207,19 +260,26 @@ export default function Profile() {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {profile.projects.map((project) => (
-              <div key={project.id} className="border-l-2 border-primary pl-4">
-                <h3 className="font-semibold">{project.title}</h3>
-                <p className="text-sm text-muted-foreground mt-1">{project.description}</p>
-                <div className="flex flex-wrap gap-2 mt-2">
-                  {project.technologies.map((tech) => (
-                    <Badge key={tech} variant="outline" className="text-xs">
-                      {tech}
-                    </Badge>
-                  ))}
+            {getDisplayedProjects().length > 0 ? (
+              getDisplayedProjects().map((project) => (
+                <div key={project.id} className="border-l-2 border-primary pl-4">
+                  <h3 className="font-semibold">{project.title}</h3>
+                  <p className="text-sm text-muted-foreground mt-1">{project.description}</p>
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    {project.technologies.map((tech) => (
+                      <Badge key={tech} variant="outline" className="text-xs">
+                        {tech}
+                      </Badge>
+                    ))}
+                  </div>
                 </div>
+              ))
+            ) : (
+              <div className="text-center py-8 text-muted-foreground">
+                <Briefcase className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                <p>Upload your resume to showcase your projects</p>
               </div>
-            ))}
+            )}
           </div>
         </CardContent>
       </Card>
@@ -243,16 +303,16 @@ export default function Profile() {
         <CardContent>
           <div className="space-y-3">
             {profile.certifications.map((cert) => (
-              <div key={cert.id} className="flex items-start justify-between p-3 rounded-lg bg-muted/50">
+              <div key={cert.id} className="flex items-start justify-between p-5 rounded-xl bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 border border-amber-200/30 dark:border-amber-800/30 shadow-sm hover:shadow-md transition-shadow duration-200">
                 <div>
-                  <h3 className="font-semibold">{cert.name}</h3>
-                  <p className="text-sm text-muted-foreground">{cert.issuer}</p>
-                  <p className="text-xs text-muted-foreground mt-1">
+                  <h3 className="font-bold text-amber-900 dark:text-amber-100">{cert.name}</h3>
+                  <p className="text-sm text-amber-700 dark:text-amber-300 font-medium">{cert.issuer}</p>
+                  <p className="text-xs text-amber-600 dark:text-amber-400 mt-1">
                     Issued: {new Date(cert.issueDate).toLocaleDateString()}
                   </p>
                 </div>
                 {cert.verified && (
-                  <Badge className="bg-chart-2 text-white hover:bg-chart-2">
+                  <Badge className="bg-gradient-to-r from-green-500 to-emerald-500 text-white hover:from-green-600 hover:to-emerald-600 shadow-sm">
                     <Check className="w-3 h-3 mr-1" />
                     Verified
                   </Badge>
@@ -263,13 +323,32 @@ export default function Profile() {
         </CardContent>
       </Card>
 
-      {/* Resume Re-upload */}
-      <Card>
+      {/* Resume Upload - Single Location */}
+      <Card className={!resumeUploaded ? "border-dashed border-2 border-primary/50 bg-primary/5" : ""}>
         <CardHeader>
-          <CardTitle>Update Resume</CardTitle>
+          <div className="text-center">
+            {!resumeUploaded ? (
+              <>
+                <div className="flex items-center justify-center w-16 h-16 mx-auto bg-primary/10 rounded-full mb-4">
+                  <Briefcase className="w-8 h-8 text-primary" />
+                </div>
+                <CardTitle className="text-xl">🚀 Unlock Your Full Profile</CardTitle>
+                <p className="text-sm text-muted-foreground mt-2">
+                  Upload your resume to reveal all your skills, projects, and get personalized recommendations
+                </p>
+              </>
+            ) : (
+              <>
+                <CardTitle>Update Resume</CardTitle>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Upload a new resume to update your profile information
+                </p>
+              </>
+            )}
+          </div>
         </CardHeader>
         <CardContent>
-          <ResumeUploadZone onUpload={handleResumeUpload} isLoading={false} />
+          <ResumeUploadZone onUpload={handleResumeUpload} isLoading={isUploading} />
         </CardContent>
       </Card>
     </div>

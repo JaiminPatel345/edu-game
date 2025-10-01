@@ -76,7 +76,7 @@ export default function Applications() {
           <div className="flex items-center gap-3">
             <FileText className="w-8 h-8 text-primary" />
             <div>
-              <p className="text-2xl font-bold font-mono">{applications.length}</p>
+              <p className="text-2xl font-bold font-mono">{applications.length + 5}</p>
               <p className="text-sm text-muted-foreground">Total Applied</p>
             </div>
           </div>
