@@ -129,7 +129,7 @@ export default function Dashboard() {
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold" data-testid="text-dashboard-title">Welcome back, Student!</h1>
+        <h1 className="text-3xl font-bold" data-testid="text-dashboard-title">Welcome back, Jaimin!</h1>
         <p className="text-muted-foreground mt-1">Here's your placement journey overview</p>
       </div>
 
