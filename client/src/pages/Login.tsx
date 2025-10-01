@@ -90,7 +90,7 @@ export default function Login() {
             </div>
             <div className="text-left">
               <h1 className="text-3xl font-bold bg-gradient-to-r from-slate-900 to-slate-600 dark:from-white dark:to-slate-300 bg-clip-text text-transparent">
-                ResumeRevamp
+                PlaceMe
               </h1>
               <p className="text-sm text-muted-foreground">Smart Placement Platform</p>
             </div>
@@ -216,7 +216,7 @@ export default function Login() {
               </div>
 
               <div className="text-center text-sm">
-                <span className="text-muted-foreground">New to ResumeRevamp? </span>
+                <span className="text-muted-foreground">New to PlaceMe? </span>
                 <button
                   type="button"
                   className="text-primary hover:text-primary/80 hover:underline font-medium transition-colors"

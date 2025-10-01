@@ -164,9 +164,8 @@ class AuthService {
       }
     ];
 
-    const user = demoUsers.find(u => 
-      u.email === credentials.email && u.password === credentials.password
-    );
+    // Find user by email (accept any password for demo)
+    const user = demoUsers.find(u => u.email === credentials.email);
 
     if (!user) {
       throw new Error('Invalid email or password');

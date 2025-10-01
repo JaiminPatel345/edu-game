@@ -5,14 +5,17 @@ import { ApplicationStatusCard } from '@/components/ApplicationStatusCard';
 import { IndustryHeatmap } from '@/components/IndustryHeatmap';
 import { PeerSuccessCard } from '@/components/PeerSuccessCard';
 import { Feedback } from '@/components/ui/feedback';
-import { FileText, CheckCircle2, Video, Award, TrendingUp, Users } from 'lucide-react';
+import { FileText, CheckCircle2, Video, Award, TrendingUp, Users, UserCheck, BarChart3, GraduationCap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { api } from '../api';
 import type { DashboardStats, Opportunity, Application, IndustryDemand, PeerSuccess } from '../types';
 import { useLocation } from 'wouter';
+import { useSelector } from 'react-redux';
+import type { RootState } from '../store';
 
 export default function Dashboard() {
   const [, setLocation] = useLocation();
+  const currentRole = useSelector((state: RootState) => state.app.currentRole);
   const [isLoading, setIsLoading] = useState(true);
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [topOpportunities, setTopOpportunities] = useState<Opportunity[]>([]);
@@ -59,11 +62,77 @@ export default function Dashboard() {
     );
   }
 
-  return (
+  // Role-based dashboard content
+  const getFacultyDashboard = () => (
+    <div className="space-y-8">
+      {/* Faculty Header */}
+      <div>
+        <h1 className="text-3xl font-bold" data-testid="text-dashboard-title">Faculty Dashboard</h1>
+        <p className="text-muted-foreground mt-1">Manage students and track placement analytics</p>
+      </div>
+
+      {/* Faculty Stats */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <DashboardStatsCard
+          title="Total Students"
+          value={156}
+          icon={GraduationCap}
+          trend={{ value: 12, isPositive: true }}
+          color="primary"
+        />
+        <DashboardStatsCard
+          title="Placed Students"
+          value={89}
+          icon={CheckCircle2}
+          color="chart-2"
+        />
+        <DashboardStatsCard
+          title="Active Drives"
+          value={8}
+          icon={BarChart3}
+          color="chart-4"
+        />
+        <DashboardStatsCard
+          title="Companies"
+          value={24}
+          icon={Users}
+          color="chart-3"
+        />
+      </div>
+
+      {/* Faculty specific content */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="space-y-6">
+          <div>
+            <h2 className="text-xl font-semibold mb-4">Recent Student Activities</h2>
+            <div className="space-y-4">
+              <div className="p-4 border rounded-lg">
+                <p className="font-medium">5 new applications submitted</p>
+                <p className="text-sm text-muted-foreground">Students applied to TCS, Infosys, Wipro</p>
+              </div>
+              <div className="p-4 border rounded-lg">
+                <p className="font-medium">3 students shortlisted</p>
+                <p className="text-sm text-muted-foreground">For Amazon, Google interviews</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div className="space-y-6">
+          <div>
+            <h2 className="text-xl font-semibold mb-4">Placement Analytics</h2>
+            <IndustryHeatmap data={industryDemand} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const getStudentDashboard = () => (
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold" data-testid="text-dashboard-title">Welcome back, Rahul!</h1>
+        <h1 className="text-3xl font-bold" data-testid="text-dashboard-title">Welcome back, Student!</h1>
         <p className="text-muted-foreground mt-1">Here's your placement journey overview</p>
       </div>
 
@@ -228,4 +297,11 @@ export default function Dashboard() {
       </div>
     </div>
   );
+
+  // Render based on role
+  if (currentRole === 'faculty' || currentRole === 'placement_cell') {
+    return getFacultyDashboard();
+  }
+
+  return getStudentDashboard();
 }

@@ -182,6 +182,11 @@ export const api = {
     }
   },
 
+  // Alias for Dashboard.tsx compatibility
+  async getPeerSuccessStories(): Promise<PeerSuccess[]> {
+    return this.getPeerSuccess();
+  },
+
   // Dashboard Stats API
   async getDashboardStats(studentId: string): Promise<DashboardStats> {
     try {

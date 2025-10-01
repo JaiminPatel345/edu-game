@@ -42,7 +42,7 @@ export function Logo({ size = 'md', showText = true, className }: LogoProps) {
       {showText && (
         <div className="text-left">
           <h1 className={cn('font-bold text-foreground', classes.text)}>
-            ResumeRevamp
+            PlaceMe
           </h1>
           <p className={cn('text-muted-foreground', classes.subtitle)}>
             Smart Placement Platform

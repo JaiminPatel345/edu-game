@@ -6,14 +6,14 @@ import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { GridBeam } from '@/components/ui/grid-beam';
-import { MaxedSEO } from '@/components/ui/maxed-seo';
 import { Logo } from '@/components/ui/logo';
 import { ThemeToggle } from '@/components/ThemeToggle';
-import { Mail, Lock, Loader2, AlertCircle, Eye, EyeOff, User, GraduationCap, Building, UserCheck } from 'lucide-react';
+import { Mail, Lock, Loader2, AlertCircle, Eye, EyeOff, User, GraduationCap, Building, UserCheck, Users } from 'lucide-react';
 import { useLocation } from 'wouter';
 import { useDispatch } from 'react-redux';
 import { setUser, setCurrentRole } from '../store';
 import { authService } from '../api/auth';
+import type { UserRole } from '../types';
 
 export default function Auth() {
   const [, setLocation] = useLocation();
@@ -22,6 +22,7 @@ export default function Auth() {
   // Login form state
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
+  const [loginRole, setLoginRole] = useState<UserRole>('student');
   const [showLoginPassword, setShowLoginPassword] = useState(false);
   const [loginError, setLoginError] = useState('');
   const [isLoginLoading, setIsLoginLoading] = useState(false);
@@ -32,7 +33,7 @@ export default function Auth() {
     email: '',
     password: '',
     confirmPassword: '',
-    role: 'student' as 'student' | 'teacher' | 'company',
+    role: 'student' as UserRole,
     department: ''
   });
   const [showRegisterPassword, setShowRegisterPassword] = useState(false);
@@ -40,8 +41,7 @@ export default function Auth() {
   const [registerError, setRegisterError] = useState('');
   const [isRegisterLoading, setIsRegisterLoading] = useState(false);
   
-  const [showAnalysis, setShowAnalysis] = useState(false);
-  const [pendingUser, setPendingUser] = useState<any>(null);
+
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -51,11 +51,11 @@ export default function Auth() {
     try {
       const user = await authService.login({ email: loginEmail, password: loginPassword });
       
-      // For login, directly set user without analysis
-      authService.saveUserData(user);
-      const mappedRole = user.role === 'teacher' ? 'faculty' : 
-                        user.role === 'company' ? 'recruiter' : 'student';
+      // Map demo roles to application roles
+      const mappedRole: UserRole = user.role === 'teacher' ? 'faculty' : 
+                                   user.role === 'company' ? 'recruiter' : 'student';
       
+      authService.saveUserData(user);
       dispatch(setUser({
         id: user.id,
         email: user.email,
@@ -65,10 +65,12 @@ export default function Auth() {
       dispatch(setCurrentRole(mappedRole));
       setLocation('/');
     } catch (err: any) {
-      setLoginError(err.message || 'Something went wrong. Please try again.');
+      setLoginError(err.message || 'Invalid email or password. Please try again.');
       setIsLoginLoading(false);
     }
   };
+
+
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -88,53 +90,35 @@ export default function Auth() {
     }
 
     try {
+      // Map UserRole to demo-data compatible roles
+      const demoRole = registerData.role === 'faculty' ? 'teacher' : 
+                       registerData.role === 'recruiter' || registerData.role === 'placement_cell' ? 'company' : 'student';
+      
       const user = await authService.register({
         email: registerData.email,
         password: registerData.password,
         name: registerData.name,
-        role: registerData.role,
+        role: demoRole,
         department: registerData.department
       });
       
-      // For registration, show analysis and then redirect
+      // Direct redirect after successful registration
       authService.saveUserData(user);
-      setPendingUser(user);
-      setShowAnalysis(true);
+      dispatch(setUser({
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        role: registerData.role // Use the original UserRole selection
+      }));
+      dispatch(setCurrentRole(registerData.role));
+      setLocation('/');
     } catch (err: any) {
       setRegisterError(err.message || 'Something went wrong. Please try again.');
       setIsRegisterLoading(false);
     }
   };
 
-  const handleAnalysisComplete = () => {
-    if (pendingUser) {
-      dispatch(setUser({
-        id: pendingUser.id,
-        email: pendingUser.email,
-        name: pendingUser.name,
-        role: pendingUser.role
-      }));
-      dispatch(setCurrentRole(
-        pendingUser.role === 'teacher' ? 'faculty' : 
-        pendingUser.role === 'company' ? 'recruiter' : 'student'
-      ));
-      setLocation('/');
-    }
-  };
 
-  if (showAnalysis) {
-    return (
-      <div className="min-h-screen overflow-hidden bg-grid-slate-200 dark:bg-grid-slate-700/50">
-        <GridBeam className="relative w-full h-full">
-          <div className="min-h-screen flex items-center justify-center relative bg-muted/30">
-            <div className="relative z-10 w-full max-w-lg p-6">
-              <MaxedSEO onComplete={handleAnalysisComplete} />
-            </div>
-          </div>
-        </GridBeam>
-      </div>
-    );
-  }
 
   const SignInForm = (
     <div className="p-6 space-y-6">
@@ -185,6 +169,41 @@ export default function Auth() {
               {showLoginPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
             </button>
           </div>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="signin-role" className="text-sm font-medium">Login as</Label>
+          <Select value={loginRole} onValueChange={(value: UserRole) => setLoginRole(value)}>
+            <SelectTrigger className="h-11">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="student">
+                <div className="flex items-center gap-2">
+                  <GraduationCap className="w-4 h-4" />
+                  Student
+                </div>
+              </SelectItem>
+              <SelectItem value="faculty">
+                <div className="flex items-center gap-2">
+                  <UserCheck className="w-4 h-4" />
+                  Faculty
+                </div>
+              </SelectItem>
+              <SelectItem value="recruiter">
+                <div className="flex items-center gap-2">
+                  <Building className="w-4 h-4" />
+                  Recruiter
+                </div>
+              </SelectItem>
+              <SelectItem value="placement_cell">
+                <div className="flex items-center gap-2">
+                  <Users className="w-4 h-4" />
+                  Placement Cell
+                </div>
+              </SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
         <Button 
@@ -253,7 +272,7 @@ export default function Auth() {
           <Label htmlFor="signup-role" className="text-sm font-medium">Account Type</Label>
           <Select 
             value={registerData.role} 
-            onValueChange={(value: 'student' | 'teacher' | 'company') => 
+            onValueChange={(value: UserRole) => 
               setRegisterData({ ...registerData, role: value })
             }
           >
@@ -267,16 +286,22 @@ export default function Auth() {
                   Student
                 </div>
               </SelectItem>
-              <SelectItem value="teacher">
+              <SelectItem value="faculty">
                 <div className="flex items-center gap-2">
                   <UserCheck className="w-4 h-4" />
-                  Faculty/Teacher
+                  Faculty
                 </div>
               </SelectItem>
-              <SelectItem value="company">
+              <SelectItem value="recruiter">
                 <div className="flex items-center gap-2">
                   <Building className="w-4 h-4" />
-                  Company/HR
+                  Recruiter
+                </div>
+              </SelectItem>
+              <SelectItem value="placement_cell">
+                <div className="flex items-center gap-2">
+                  <Users className="w-4 h-4" />
+                  Placement Cell
                 </div>
               </SelectItem>
             </SelectContent>

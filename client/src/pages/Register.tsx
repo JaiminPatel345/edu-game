@@ -121,14 +121,14 @@ export default function Register() {
             </div>
             <div className="text-left">
               <h1 className="text-3xl font-bold bg-gradient-to-r from-slate-900 to-slate-600 dark:from-white dark:to-slate-300 bg-clip-text text-transparent">
-                ResumeRevamp
+                PlaceMe
               </h1>
               <p className="text-sm text-muted-foreground">Smart Placement Platform</p>
             </div>
           </div>
           
           <div className="space-y-2">
-            <h2 className="text-2xl font-semibold text-foreground">Join ResumeRevamp</h2>
+            <h2 className="text-2xl font-semibold text-foreground">Join PlaceMe</h2>
             <p className="text-muted-foreground">
               Create your account and unlock AI-powered career opportunities
             </p>
